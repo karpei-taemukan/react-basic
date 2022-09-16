@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id = "root"></div>
+    <div id = "root1"></div>
+</body>
+<script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+<script type="text/babel"> // 브라우저는 JSX를 invalid라고 생각 그래서 babel 사용
+  let counter = 0;
+  const root = document.getElementById("root");
+  const root1 = document.getElementById("root1");
+  const body = document.querySelector("body");
+  body.style.backgroundColor="green"
+  function countUP(){
+    counter = counter+1;
+    render();
+  };
+  function countDown(){
+      counter = counter-1;
+      render();
+  };
+  function render(){
+    ReactDOM.render(<Container />, root);
+    ReactDOM.render(<Container1 />, root1);
+  };
+       const Container = ()=>(
+           <div>
+            <h3>Total Clicks: {counter}</h3>
+            <button onClick={countUP}>UP</button>
+            </div>
+       );
+
+        const Container1 = ()=>(
+            <button onClick={countDown}>Down</button>
+        );
+       render();
+        /* 페이지가 로드됬을때 함수로 작성된 코드는 곧바로 실행이 안되고 
+         ReacDOM.render부터 실행된다 즉, 컴포넌트를 한번만 렌더링해서 UI에 counter가 업데이트가 안된다
+         그래서 리렌더링을 해줘야 counter가 업데이트가 된다*/
+
+         /*  React.js는 UI에서 바뀐부분만 업데이트  */
+    </script>
+</html>

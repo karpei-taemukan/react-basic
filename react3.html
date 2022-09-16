@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id = "root"></div>
+
+</body>
+<script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+<script type="text/babel"> // 브라우저는 JSX를 invalid라고 생각 그래서 babel 사용
+  let counter = 0;
+  const root = document.getElementById("root");
+
+  const body = document.querySelector("body");
+  body.style.backgroundColor="green"
+  
+  const Container = () =>
+       {
+        let [counter, setCounter] = React.useState(0);
+        // 배열의 1번째 값은 초기 값, 2번째 값은 그 값을 바꾸는 함수
+        //React.useState(); 는 counter와 같은 데이터를 건네고 
+        // 그 데이터 값을 바꿀 함수도 함께 전달하고 컴포넌트도 동시에 렌더링된다
+        const UpClick = () => {
+          setCounter(counter+1);
+        }; 
+  
+        const DownClick = () => {
+          setCounter(counter-1);
+        }; 
+        return (
+           <div>
+            <h3>Total Clicks: {counter}</h3>
+            <button onClick={UpClick}>UP</button>
+            <button onClick={DownClick}>Down</button>
+            </div>
+       )
+       };
+
+
+ ReactDOM.render(<Container />, root);
+
+    </script>
+</html>

@@ -14,8 +14,7 @@
 <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
 <script type="text/babel"> // 브라우저는 JSX를 invalid라고 생각 그래서 babel 사용
         const root = document.getElementById("root");
-  
-      
+        const body = document.querySelector("body");
        const Title = () => (
             <h2 key="title" id="title" onMouseEnter={()=>console.log("mouse enter")}>title</h2>
             );
@@ -25,7 +24,7 @@
            onClick={()=>console.log("button")}>Click</button>
            );
            const Button2 =()=>(
-               <button onClick={()=>root.backgroundColor="green"}>CHANGE COLOR</button>
+               <button onClick={()=>body.style.backgroundColor="green"}>CHANGE COLOR</button>
            );
 //Title, Button을 Container에 포함시키기위해선 함수로 만들어줘야함
 
