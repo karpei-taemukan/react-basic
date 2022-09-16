@@ -26,12 +26,15 @@
         // 배열의 1번째 값은 초기 값, 2번째 값은 그 값을 바꾸는 함수
         //React.useState(); 는 counter와 같은 데이터를 건네고 
         // 그 데이터 값을 바꿀 함수도 함께 전달하고 컴포넌트도 동시에 렌더링된다
+
+        // --> state가 바뀌면 React가 컴포넌트를 리렌더링한다
         const UpClick = () => {
-          setCounter(counter+1);
+         // setCounter(counter+1);
+        setCounter(current => current+1);
         }; 
   
         const DownClick = () => {
-          setCounter(counter-1);
+          setCounter(current => current-1);
         }; 
         return (
            <div>
