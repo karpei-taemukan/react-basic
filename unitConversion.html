@@ -23,63 +23,122 @@
 
   const body = document.querySelector("body");
   body.style.backgroundColor="brown"
-function App(){
+function MinutesToHours(){
 
-    const [amount, setAmount] = React.useState(0);
+const [amount, setAmount] = React.useState(0);
+const [inverted, setInverted] = React.useState(false);
+const [bgColor, setBgColor] = React.useState(false);
+// const [A,B] = React.useState(defalut);
+// A -> read-only (값 대입 불가) B -> A가 read-only여서 함수인 B가 대신 변경한다
+const onChange = (event) => {
+//console.log(event.target.value);
+setAmount(event.target.value);
+}
+const reset = ()=>{
+    setAmount(0);
+};
+const onInvert = () =>{
+    setInverted((current) => !current);
+    reset();
+};
+const backgroundColor = () =>{
+    setBgColor((current) => !current);
+    if(!bgColor){
+    body.style.backgroundColor="gray"
+}else{
+    body.style.backgroundColor="green"
+}};
+return(
+    <div>
+    <div>
+    <label htmlFor="minutes">Minutes</label>
+    <input 
+    disabled={inverted === true} 
+    onChange={onChange} 
+    value={inverted ? amount * 60:amount} 
+    id="minutes" 
+    placeholder="Minutes" 
+    type="number"/>
+    </div>
+    <h4>You want to convert {amount}</h4>
+    <div>
+    <label htmlFor="hours">Hours</label>
+    <input 
+    onChange={onChange} 
+    disabled={inverted === false} 
+    value={inverted ? amount : Math.round(amount/60)}  
+    // 삼항연산자는 if문을 못쓰는 상황에서 쓸수있는 if문의 인라인 형태
+    id="hours" 
+    placeholder="Hours" 
+    type="number"/>
+    </div>
+    <button onClick={reset}>RESET</button>
+    <button onClick={onInvert}>{inverted ? "Trun back":"Invert"}</button>
+    <button onClick={backgroundColor}>BACKGROUNDCOLOR</button>
+    </div>
+);
+};
+
+function KmToMiles(){
+    const [distance,setDistance] = React.useState(0);    
     const [inverted, setInverted] = React.useState(false);
     const [bgColor, setBgColor] = React.useState(false);
-    // const [A,B] = React.useState(defalut);
-    // A -> read-only (값 대입 불가) B -> A가 read-only여서 함수인 B가 대신 변경한다
-    const onChange = (event) => {
-    //console.log(event.target.value);
-    setAmount(event.target.value);
-    }
-    const reset = ()=>{
-        setAmount(0);
+    
+    const reset = () => {
+        setDistance(0);
+    };
+    const onDistance = (event) => {
+        setDistance(event.target.value);
     };
     const onInvert = () =>{
-        setInverted((current) => !current);
-        reset();
-    };
-    const backgroundColor = () =>{
-        setBgColor((current) => !current);
-        if(!bgColor){
-        body.style.backgroundColor="gray"
-    }else{
-        body.style.backgroundColor="green"
-    }};
+    setInverted((current) => !current);
+    reset();
+};
+const backgroundColor = () =>{
+    setBgColor((current) => !current);
+    if(!bgColor){
+    body.style.backgroundColor="gray"
+}else{
+    body.style.backgroundColor="green"
+}};
+    return (
+    <div>
+    <div>
+    <h3>Km To Mile</h3>
+    <label htmlFor="km">Kilometer</label>
+    <input disabled={inverted === true} value={inverted ? distance*1.6 : distance} onChange={onDistance} id="km" placeholder="Kilometer" type="number"/>
+    </div>
+    <h4>You want to convert {distance}</h4>
+    <div>
+    <label htmlFor="mile">Mile</label>
+    <input disabled={inverted === false} value={inverted ? distance: distance*0.6} onChange={onDistance} id="mile" placeholder="Mile" type="number"/>
+    </div>
+    <button onClick={reset}>RESET</button>
+    <button onClick={onInvert}>{inverted ? "Trun back":"Invert"}</button>
+    <button onClick={backgroundColor}>BACKGROUNDCOLOR</button>
+    </div>
+
+    );
+}
+
+function App(){
+    const [index, setIndex] = React.useState("0");
+    const onSelect = (event) => {
+        setIndex(event.target.value);
+    }
     return(
         <div>
         <h1 className="hi">Super Converter</h1>
-        <div>
-        <label htmlFor="minutes">Minutes</label>
-        <input 
-        disabled={inverted === true} 
-        onChange={onChange} 
-        value={inverted ? amount * 60:amount} 
-        id="minutes" 
-        placeholder="Minutes" 
-        type="number"/>
-        </div>
-        <h4>You want to convert {amount}</h4>
-        <div>
-        <label htmlFor="hours">Hours</label>
-        <input 
-        onChange={onChange} 
-        disabled={inverted === false} 
-        value={inverted ? amount : Math.round(amount/60)}  
-        // 삼항연산자는 if문을 못쓰는 상황에서 쓸수있는 if문의 인라인 형태
-        id="hours" 
-        placeholder="Hours" 
-        type="number"/>
-        </div>
-        <button onClick={reset}>RESET</button>
-        <button onClick={onInvert}>{inverted ? "Trun back":"Invert"}</button>
-        <button onClick={backgroundColor}>BACKGROUNDCOLOR</button>
+        <select value={index} onChange={onSelect}>
+        <option value="0">Minutes & Hours</option>
+        <option value="1">Km & Miles</option>
+        </select>
+        {index === "0" ? <MinutesToHours />: null} 
+        {index === "1" ? <KmToMiles />: null} 
         </div>
     );
 };
-  
+  // {}를 쓰면 JS코드를 쓸 수 있다
  ReactDOM.render(<App />, root);
 
     </script>
