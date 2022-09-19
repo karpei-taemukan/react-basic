@@ -14,6 +14,7 @@
 <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
 <script type="text/babel"> // 브라우저는 JSX를 invalid라고 생각 그래서 babel 사용
     //src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"
     //src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"
@@ -21,7 +22,8 @@ const root = document.getElementById("root");
 const body = document.querySelector("body");
   body.style.backgroundColor="green";
 
-function Btn({banana, big, changevalue}){ 
+
+function Btn({banana, big, changevalue, onmoreChange}){ 
 // props는 첫번째 인자이자, Btn이 전달받는 인자다
 // props는 object이다 
 //console.log({banana, big})
@@ -29,6 +31,7 @@ console.log(banana)
 return (
     <button 
     onClick={changevalue}
+    onDoubleClick={onmoreChange}
     style={{
         backgroundColor: "tomato",
         color: "white",
@@ -39,16 +42,41 @@ return (
     }}>{banana}</button>
 )
 }
+
+function H1({text,backgroundColorChage}){
+return (
+    <h1 onMouseEnter={backgroundColorChage}>{text}</h1>
+)
+}
+
 const MemorizedBtn = React.memo(Btn);
 // 만약 props가 변경되지않는다면 <button></button>의 banana를 바꿀 필요가 없다
+
+MemorizedBtn.propTypes = {
+    banana: PropTypes.string,
+    big: PropTypes.bool.isRequired,
+};
 
 // 중요) 부모 컴포넌트가 state(value) 변경을 겪는다면 return(~~) 가 새로고침된다
 function App(){
    const [value, setValue] = React.useState("Save Changes");
+   const [bgColor, setBgColor] = React.useState(false);
+
    const changevalue = () => setValue("Revert Changes");
+   const onmoreChange = () => setValue("Save Changes");
+   const backgroundColorChage = () => {
+setBgColor((current) => !current);
+if(!bgColor){
+    body.style.backgroundColor="gray"
+    root.style.color="white"
+}else{
+    body.style.backgroundColor="green"
+    root.style.color="blue"
+}};
     return(
         <div>
-        <MemorizedBtn banana={value} big={true} changevalue={changevalue}/>
+        <H1 text="backgroundColorChage" backgroundColorChage={backgroundColorChage}/>
+        <MemorizedBtn banana={value} big={true} changevalue={changevalue} onmoreChange={onmoreChange} />
         
         <MemorizedBtn banana="Continue" big={false}/>
         </div>
